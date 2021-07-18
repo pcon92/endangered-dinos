@@ -11,8 +11,10 @@ const GameScreen = () => {
     return (
         <div>
             <div className={styles.outerContainer}>
-                <Player />
                 <Enemy />
+                <div className={styles.innerGrid}>
+                <Player />
+                </div>
             </div>
         </div>
     )

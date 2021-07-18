@@ -11,29 +11,30 @@ const Player = () => {
 
     useEffect(() => {
 
+        const PLAYER = document.getElementById("player"); 
+
         const handleKeyPress = (e) => {
 
             const oldX = playerPos[0];
             const oldY = playerPos[1];
             const MOVE_VAL = 50;
-            const PLAYER = document.getElementById("player"); 
 
-            if (e.key === 'ArrowRight') {
+            if (e.key === 'ArrowRight' && oldX < 220) {
                 PLAYER.style.transform = `translateX(${oldX + MOVE_VAL}px) translateY(${oldY}px)`;
                 const newPos = [oldX + MOVE_VAL, oldY];
                 setPlayerPos(newPos);
             }
-            if (e.key === 'ArrowLeft') {
+            if (e.key === 'ArrowLeft' && oldX > -200) {
                 PLAYER.style.transform = `translateX(${oldX - MOVE_VAL}px) translateY(${oldY}px)`;
                 const newPos = [oldX - MOVE_VAL, oldY];
                 setPlayerPos(newPos);
             }
-            if (e.key === 'ArrowUp') {
+            if (e.key === 'ArrowUp' && oldY > -200) {
                 PLAYER.style.transform = `translateX(${oldX}px) translateY(${oldY - MOVE_VAL}px)`;
                 const newPos = [oldX, oldY - MOVE_VAL];
                 setPlayerPos(newPos);
             }
-            if (e.key === 'ArrowDown') {
+            if (e.key === 'ArrowDown' && oldY < 220) {
                 PLAYER.style.transform = `translateX(${oldX}px) translateY(${oldY + MOVE_VAL}px)`;
                 const newPos = [oldX, oldY + MOVE_VAL];
                 setPlayerPos(newPos);
