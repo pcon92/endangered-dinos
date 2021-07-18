@@ -2,43 +2,54 @@ import React, { useState, useEffect } from 'react';
 
 import styles from '../styles/enemy.module.css';
 
-const Enemy = () => {
+const Enemy = ( { id, xPos, yPos, dir, speed }) => {
 
-    const [enemyPos, setEnemyPos] = useState([0, 0]);
+    const [enemyPos, setEnemyPos] = useState([xPos, yPos]);
 
-    const generateStartingPoint = () => {
-        const startingXVals = [0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500];
-        const startingYVals = [0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500];
-         
-        const startingX = startingXVals[Math.floor(Math.random() * 11)];
-        const startingY = startingYVals[Math.floor(Math.random() * 11)];
+    const moveIntoGrid = () => {
+        
+        const ENEMY = document.getElementById(id); 
 
-        const MOVE_VAL = 50;
+        ENEMY.style.opacity = 1;
 
-        console.log(startingX, startingY);
+        ENEMY.style.transition = "transform 1s, opacity 1s";
 
-        setEnemyPos([startingX, startingY]);
+
+        const MOVE_VAL = 570; // px dist by seconds
+
+
+        setInterval(() => {        
+        if (dir === "Right") {
+            ENEMY.style.transform = `translateX(${MOVE_VAL}px)`;
+            const newPos = [xPos + MOVE_VAL, yPos];
+            setEnemyPos(newPos);
+        } if (dir === "Left") {
+            ENEMY.style.transform = `translateX(${-MOVE_VAL}px)`;
+            const newPos = [xPos - MOVE_VAL, yPos];
+            setEnemyPos(newPos);
+        } if (dir === "Up") {
+            ENEMY.style.transform = `translateY(${-MOVE_VAL}px)`;
+            const newPos = [xPos, yPos - MOVE_VAL];
+            setEnemyPos(newPos);
+        } if (dir === "Down") {
+            ENEMY.style.transform = `translateY(${MOVE_VAL}px)`;
+            const newPos = [xPos, yPos + MOVE_VAL];
+            setEnemyPos(newPos);
+        }
+        }, 1000);
+
     };
 
     useEffect(() => {
-
-        const oldX = enemyPos[0];
-        const oldY = enemyPos[1];
-        const MOVE_VAL = 50;
-
-        const ENEMY = document.getElementById("enemy"); 
-    
-        ENEMY.style.transform = `translateX(${oldX + MOVE_VAL}px) translateY(${oldY}px)`;
-
-    });
+        const startMoving = setInterval(moveIntoGrid, 3000);
+        return () => clearInterval(startMoving, 1000);
+    }, [])
 
     return (
-        <div>
-            <div
-                id = "enemy" 
-                className={styles.outerContainer}>
-
-            </div>
+        <div
+            id = {id} 
+            className={styles.outerContainer}
+            style={{position:'absolute', left: xPos, top: `${yPos}px`}}>
         </div>
     )
 
