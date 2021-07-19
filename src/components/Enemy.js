@@ -2,54 +2,42 @@ import React, { useState, useEffect } from 'react';
 
 import styles from '../styles/enemy.module.css';
 
-const Enemy = ( { id, xPos, yPos, dir, speed }) => {
+const Enemy = ( { id, xPos, yPos, dir, playerPos, handleCollision }) => {
 
     const [enemyPos, setEnemyPos] = useState([xPos, yPos]);
 
     const moveIntoGrid = () => {
         
-        const ENEMY = document.getElementById(id); 
+        let MOVE_VAL = 570; // px dist by seconds
 
-        ENEMY.style.opacity = 1;
-
-        ENEMY.style.transition = "transform 1s, opacity 1s";
-
-
-        const MOVE_VAL = 570; // px dist by seconds
-
-
-        setInterval(() => {        
         if (dir === "Right") {
-            ENEMY.style.transform = `translateX(${MOVE_VAL}px)`;
-            const newPos = [xPos + MOVE_VAL, yPos];
-            setEnemyPos(newPos);
+            setEnemyPos([xPos += 50, yPos])
         } if (dir === "Left") {
-            ENEMY.style.transform = `translateX(${-MOVE_VAL}px)`;
-            const newPos = [xPos - MOVE_VAL, yPos];
-            setEnemyPos(newPos);
+            setEnemyPos([xPos -= 50, yPos])
         } if (dir === "Up") {
-            ENEMY.style.transform = `translateY(${-MOVE_VAL}px)`;
-            const newPos = [xPos, yPos - MOVE_VAL];
-            setEnemyPos(newPos);
+            setEnemyPos([xPos, yPos -= 50])
         } if (dir === "Down") {
-            ENEMY.style.transform = `translateY(${MOVE_VAL}px)`;
-            const newPos = [xPos, yPos + MOVE_VAL];
-            setEnemyPos(newPos);
+            setEnemyPos([xPos, yPos += 50])
         }
-        }, 1000);
 
     };
 
     useEffect(() => {
-        const startMoving = setInterval(moveIntoGrid, 3000);
-        return () => clearInterval(startMoving, 1000);
-    }, [])
+        const moving = setInterval(moveIntoGrid, 1000);
+        return () => clearInterval(moving, 10000);
+    }, []);
+
+    useEffect(() => {
+        if (playerPos[0] === enemyPos[0] && playerPos[1] === enemyPos[1]) {
+            handleCollision();
+        }
+    }, [enemyPos])
 
     return (
         <div
             id = {id} 
             className={styles.outerContainer}
-            style={{position:'absolute', left: xPos, top: `${yPos}px`}}>
+            style={{position:'absolute', left: `${enemyPos[0]}px`, top: `${enemyPos[1]}px`}}>
         </div>
     )
 

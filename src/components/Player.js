@@ -5,59 +5,53 @@ import PlayerImage from '../assets/DinoSprites - doux.png';
 
 import styles from '../styles/player.module.css';
 
-const Player = () => {
+const Player = ( { playerPos, handlePlayerPos }) => {
 
-    const [playerPos, setPlayerPos] = useState([0, 0]);
+    const [moveTo, setmoveTo] = useState([playerPos[0], playerPos[1]]);
+
 
     useEffect(() => {
 
-        const PLAYER = document.getElementById("player"); 
-
         const handleKeyPress = (e) => {
 
-            const oldX = playerPos[0];
-            const oldY = playerPos[1];
             const MOVE_VAL = 50;
 
-            if (e.key === 'ArrowRight' && oldX < 220) {
-                PLAYER.style.transform = `translateX(${oldX + MOVE_VAL}px) translateY(${oldY}px)`;
-                const newPos = [oldX + MOVE_VAL, oldY];
-                setPlayerPos(newPos);
+            if (e.key === 'ArrowRight' && moveTo[0] < 500) {
+                setmoveTo([moveTo[0] + MOVE_VAL, moveTo[1]]);
+                handlePlayerPos([moveTo[0] + MOVE_VAL, moveTo[1]]);
             }
-            if (e.key === 'ArrowLeft' && oldX > -200) {
-                PLAYER.style.transform = `translateX(${oldX - MOVE_VAL}px) translateY(${oldY}px)`;
-                const newPos = [oldX - MOVE_VAL, oldY];
-                setPlayerPos(newPos);
+            if (e.key === 'ArrowLeft' && moveTo[0] > 0) {
+                setmoveTo([moveTo[0] - MOVE_VAL, moveTo[1]]);
+                handlePlayerPos([moveTo[0] - MOVE_VAL, moveTo[1]]);
             }
-            if (e.key === 'ArrowUp' && oldY > -200) {
-                PLAYER.style.transform = `translateX(${oldX}px) translateY(${oldY - MOVE_VAL}px)`;
-                const newPos = [oldX, oldY - MOVE_VAL];
-                setPlayerPos(newPos);
+            if (e.key === 'ArrowUp' && moveTo[1] > 0) {
+                setmoveTo([moveTo[0], moveTo[1] - MOVE_VAL]);
+                handlePlayerPos([moveTo[0], moveTo[1] - MOVE_VAL]);
             }
-            if (e.key === 'ArrowDown' && oldY < 220) {
-                PLAYER.style.transform = `translateX(${oldX}px) translateY(${oldY + MOVE_VAL}px)`;
-                const newPos = [oldX, oldY + MOVE_VAL];
-                setPlayerPos(newPos);
+            if (e.key === 'ArrowDown' && moveTo[1] < 500) {
+                setmoveTo([moveTo[0], moveTo[1] + MOVE_VAL]);
+                handlePlayerPos([moveTo[0], moveTo[1] + MOVE_VAL]);
             }
-
 
         }
 
         window.addEventListener('keydown', handleKeyPress);
         return () => window.removeEventListener('keydown', handleKeyPress);
         
-    }, [playerPos]);
+    }, [moveTo]);
 
 
     return (
         <div>
             <div
                 id="player" 
-                className={styles.outerContainer}>
+                className={styles.outerContainer}
+                style={{ position: "absolute", left: `${moveTo[0]}px`, top: `${moveTo[1]}px` }}>
                 <img 
                     src={PlayerImage}
                     className={styles.playerImage}
-                    alt="player character"></img>
+                    alt="player character"
+                    ></img>
             </div>
         </div>
     )

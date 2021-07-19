@@ -1,16 +1,17 @@
 
 .outerContainer {
-    height: 640px;
-    width: 640px;
-    border: 10px solid black;
+    height: 600px;
+    width: 600px;
     position: relative;
+    background-color: black;
 }
 
 .innerGrid {
-    height: 520px;
-    width: 520px;
-    border: 10px solid black;
+    height: 500px;
+    width: 500px;
     position: absolute;
     top: 50px;
     left: 50px;
+    background-color: white;
+    overflow: hidden;
 }
