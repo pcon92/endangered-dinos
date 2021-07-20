@@ -2,10 +2,10 @@
 .outerContainer {
     height: 100px;
     width: 600px;
-    border: 1px solid black;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     margin-bottom: 100px;
     font-size: 36px;
 }

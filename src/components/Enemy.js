@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 
+import generateRandomColor from '../functions/generateRandomColor';
+
 import styles from '../styles/enemy.module.css';
 
-const Enemy = ( { id, xPos, yPos, dir, playerPos, handleCollision }) => {
+const Enemy = ( { id, xPos, yPos, dir, playerPos, 
+    handleCollision,
+    collision }) => {
 
     const [enemyPos, setEnemyPos] = useState([xPos, yPos]);
+    const [color, setColor] = useState('black');
 
     const moveIntoGrid = () => {
-        
-        let MOVE_VAL = 570; // px dist by seconds
 
         if (dir === "Right") {
             setEnemyPos([xPos += 50, yPos])
@@ -23,21 +26,33 @@ const Enemy = ( { id, xPos, yPos, dir, playerPos, handleCollision }) => {
     };
 
     useEffect(() => {
+
         const moving = setInterval(moveIntoGrid, 1000);
-        return () => clearInterval(moving, 10000);
-    }, []);
+
+        if (collision) {
+            clearInterval(moving);
+        }
+
+        return () => clearInterval(moving);
+
+    }, [collision]);
 
     useEffect(() => {
         if (playerPos[0] === enemyPos[0] && playerPos[1] === enemyPos[1]) {
             handleCollision();
         }
-    }, [enemyPos])
+    }, [enemyPos, playerPos]);
+
+    useEffect(() => {
+        setColor(generateRandomColor());
+    }, [])
 
     return (
         <div
             id = {id} 
             className={styles.outerContainer}
-            style={{position:'absolute', left: `${enemyPos[0]}px`, top: `${enemyPos[1]}px`}}>
+            style={{position:'absolute', left: `${enemyPos[0]}px`, top: `${enemyPos[1]}px`,
+                backgroundColor: `${color}`}}>
         </div>
     )
 

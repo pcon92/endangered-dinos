@@ -2,32 +2,42 @@
 .outerContainer {
     height: 50px;
     width: 50px;
-    border: 1px solid black;
     overflow: hidden;
     display: flex;
     align-items: center;
     position: absolute;
     transition: transform 0.5s;
-    top: 200px;
-    left: 200px;
+    padding-left: 5px;
 }
 
-.playerImage {
+.playerImageIdle {
     image-rendering: pixelated;
     image-rendering: crisp-edges;
     transform: scale(2.5);
-    animation: walkRight 0.5s steps(2) infinite;
+    margin-left: 420px;
+    animation: idle 5s steps(4) infinite;
+}
+@keyframes idle {
+    0% {
+        transform: translate3d(0, 0, 0) scale(2.5);
+    }
+    100% {
+        transform: translate3d(-42%, 0, 0) scale(2.5);
+    }
 }
 
-.playerWalkingRight {
+.playerImageMoving {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    transform: scale(2.5);
     animation: walkRight 0.5s steps(4) infinite;
 }
-
 @keyframes walkRight {
     0% {
         transform: translate3d(0, 0, 0) scale(2.5);
     }
     100% {
-        transform: translate3d(-20%, 0, 0) scale(2.5);
+        transform: translate3d(-42%, 0, 0) scale(2.5);
     }
 }
+

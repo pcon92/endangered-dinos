@@ -5,6 +5,9 @@ Endangered Dino's
 Dino Images and Animations created by Arks (Twitter: @ScissorMarks) on Itch.io
 (https://arks.itch.io/dino-characters)
 
+Background tileset created by Pixiatrist on Itch.io
+(https://pixiatrist.itch.io/amazingtilesetground1)
+
 
 Game Plan:
     - Player controls dinosaur character

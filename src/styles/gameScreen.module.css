@@ -1,17 +1,34 @@
 
-.outerContainer {
-    height: 600px;
-    width: 600px;
-    position: relative;
-    background-color: black;
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.outerContainerStarted {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.outerContainerNotStarted {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.5;
 }
 
 .innerGrid {
     height: 500px;
     width: 500px;
-    position: absolute;
-    top: 50px;
-    left: 50px;
+    position: relative;
     background-color: white;
     overflow: hidden;
+    background-image: url("../assets/variation_tiles.png");
+    border: 3px solid black;
+    box-sizing: content-box;
 }

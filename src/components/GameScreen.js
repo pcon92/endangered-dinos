@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import Score from './Score';
+import StartButton from './StartButton';
 import Player from './Player';
 import Enemy from './Enemy';
 
@@ -10,6 +11,24 @@ import styles from '../styles/gameScreen.module.css';
 
 const GameScreen = () => {
 
+
+    const [hasStarted, setHasStarted] = useState(false);
+
+    const handleHasStarted = () => {
+        setHasStarted(true);
+        setCollision(false);
+        setScore(0);
+        setEnemies([]);
+        setPlayerPos([200, 200]);
+    }
+
+    const [score, setScore] = useState(0);
+
+    const handleSetScore = () => {
+        setScore(score => score + 100);
+    }
+
+
     const [totalEnemies, setTotalEnemies] = useState(0);
     const [enemies, setEnemies] = useState([]);
 
@@ -17,6 +36,7 @@ const GameScreen = () => {
 
     const handleCollision = () => {
         setCollision(true);
+        setHasStarted(false);
     };
 
     const handleMakeEnemy = () => {
@@ -46,30 +66,69 @@ const GameScreen = () => {
     useEffect(() => {
         const generateEnemy = setInterval(handleMakeEnemy, 3000);
         return () => clearInterval(generateEnemy);
-    });
+    }, [enemies]);
 
     return (
-        <div>
-            <Score 
-                collision={collision}/>
-            <div className={styles.outerContainer}>
-                <div className={styles.innerGrid}>
-                {enemies.map(enemy => 
-                    <Enemy 
-                        key={enemy.id}
-                        id={enemy.id}
-                        xPos = {enemy.xPos}
-                        yPos = {enemy.yPos}
-                        dir = {enemy.dir}
-                        playerPos={playerPos}
-                        handleCollision={handleCollision}/>
-                )}
-                    <Player
-                        playerPos={playerPos}
-                        handlePlayerPos={handlePlayerPos} />
+        <>
+            {hasStarted 
+            ?   
+            <div className={styles.wrapper}>
+                <Score 
+                    score={score}
+                    handleSetScore={handleSetScore}
+                    hasStarted={hasStarted}
+                    collision={collision}/>
+                <div className={styles.outerContainerStarted}>
+                    <div className={styles.innerGrid}>
+                    {enemies.map(enemy => 
+                        <Enemy 
+                            key={enemy.id}
+                            id={enemy.id}
+                            xPos = {enemy.xPos}
+                            yPos = {enemy.yPos}
+                            dir = {enemy.dir}
+                            playerPos={playerPos}
+                            handleCollision={handleCollision}
+                            collision={collision}/>
+                    )}
+                        <Player
+                            playerPos={playerPos}
+                            handlePlayerPos={handlePlayerPos} 
+                            collision={collision}/>
+                    </div>
                 </div>
             </div>
-        </div>
+            : 
+            <div className={styles.wrapper}>
+                <Score 
+                    score={score}
+                    handleSetScore={handleSetScore}
+                    hasStarted={hasStarted}
+                    collision={collision}/>
+                <StartButton
+                    handleHasStarted={handleHasStarted}/>
+                <div className={styles.outerContainerNotStarted}>
+                    <div className={styles.innerGrid}>
+                        {enemies.map(enemy => 
+                            <Enemy 
+                                key={enemy.id}
+                                id={enemy.id}
+                                xPos = {enemy.xPos}
+                                yPos = {enemy.yPos}
+                                dir = {enemy.dir}
+                                playerPos={playerPos}
+                                handleCollision={handleCollision}
+                                collision={collision}/>
+                        )}
+                        <Player
+                            playerPos={playerPos}
+                            handlePlayerPos={handlePlayerPos} 
+                            collision={collision}/>
+                    </div>
+                </div>
+            </div>
+            }
+        </>   
     )
    
 };

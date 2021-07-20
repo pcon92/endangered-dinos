@@ -2,8 +2,7 @@
 .outerContainer {
     height: 50px;
     width: 50px;
-    border: 1px solid red;
     border-radius: 50%;
-    background-color: red;
     z-index: 3;
+    border: 5px solid red;
 }

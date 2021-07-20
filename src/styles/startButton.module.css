@@ -1,0 +1,17 @@
+
+.outerContainer {
+    height: 50px;
+    width: 100px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    top: auto;
+    left: auto;
+
+    background-color: grey;
+
+    z-index: 10;
+}

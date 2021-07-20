@@ -1,22 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import styles from '../styles/score.module.css';
 
-const Score = ( { collision } ) => {
-
-    const [score, setScore] = useState(0);
+const Score = ( { score, collision, handleSetScore, hasStarted } ) => {
 
     useEffect(() => {
-        const scoring = setInterval(() => setScore(score => score + 100), 10);
+        let scoring = 0;
+        if (hasStarted === true) {
+            scoring = setInterval(handleSetScore, 10);
+        }
         if (collision === true) { 
             clearInterval(scoring)
         };
         return () => clearInterval(scoring);
-    }, [collision]);
+    }, [collision, hasStarted]);
 
     return (
         <div className={styles.outerContainer}>
-            {score}
+            Score : {score}
+            {collision 
+            ? <div>
+                Game Over! Refresh page to restart
+             </div>
+            : null}
         </div>
     )
 
