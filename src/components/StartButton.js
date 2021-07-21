@@ -5,8 +5,6 @@ import styles from '../styles/startButton.module.css';
 
 const StartButton = ( { handleHasStarted }) => {
 
-   
-
     return (
         <div 
             onClick={handleHasStarted}

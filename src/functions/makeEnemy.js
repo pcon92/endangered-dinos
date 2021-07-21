@@ -1,9 +1,8 @@
 
-export default function makeEnemy(totalEnemies) {
+export default function makeEnemy(totalEnemies, enemyLevel) {
 
     const STARTING_X_VALS = [0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500];
     const STARTING_Y_VALS = [0 ,50, 100, 150, 200, 250, 300, 350, 400, 450, 500];
-    const MOVE_SPEED = 1; // in seconds
 
     let startingX = 0;
     let startingY = 0;
@@ -34,7 +33,7 @@ export default function makeEnemy(totalEnemies) {
         xPos: startingX,
         yPos: startingY,
         dir: moveDir,
-        speed: MOVE_SPEED
+        level: enemyLevel,
     }
 
     return newEnemy;

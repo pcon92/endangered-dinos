@@ -9,6 +9,10 @@ Background tileset created by Pixiatrist on Itch.io
 (https://pixiatrist.itch.io/amazingtilesetground1)
 
 
+UNUSED:
+Grass + (not yet used)
+https://ninjikin.itch.io/grass
+
 Game Plan:
     - Player controls dinosaur character
     - Dodges enemies (etc. Meteorites/Volcanos/Ice Age/Disease)
@@ -20,3 +24,7 @@ Planned tech stack:
     - React for front end
     - Node and Express for backend
     - MongoDb for high scores
+
+
+BUGS: 
+- Player does not reset position on start due to component not re-rendering?

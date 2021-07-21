@@ -7,7 +7,7 @@ const Score = ( { score, collision, handleSetScore, hasStarted } ) => {
     useEffect(() => {
         let scoring = 0;
         if (hasStarted === true) {
-            scoring = setInterval(handleSetScore, 10);
+            scoring = setInterval(handleSetScore, 100);
         }
         if (collision === true) { 
             clearInterval(scoring)

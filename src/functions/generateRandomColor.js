@@ -1,5 +1,5 @@
 
-function generateRandomColor() {
+export default function generateRandomColor() {
     let rgb1 = Math.floor(256*Math.random()-1);
     let rgb2 = Math.floor(256*Math.random()-1);
     let rgb3 = Math.floor(256*Math.random()-1);
@@ -8,5 +8,3 @@ function generateRandomColor() {
 
     return randomColor;
 }
-
-export default generateRandomColor;

@@ -5,4 +5,7 @@
     border-radius: 50%;
     z-index: 3;
     border: 5px solid red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

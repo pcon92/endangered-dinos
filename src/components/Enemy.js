@@ -4,8 +4,10 @@ import generateRandomColor from '../functions/generateRandomColor';
 
 import styles from '../styles/enemy.module.css';
 
-const Enemy = ( { id, xPos, yPos, dir, playerPos, 
+const Enemy = ( { id, xPos, yPos, dir, level,
+    playerPos, 
     handleCollision,
+    handleMakeEnemy,
     collision }) => {
 
     const [enemyPos, setEnemyPos] = useState([xPos, yPos]);
@@ -27,7 +29,7 @@ const Enemy = ( { id, xPos, yPos, dir, playerPos,
 
     useEffect(() => {
 
-        const moving = setInterval(moveIntoGrid, 1000);
+        const moving = setInterval(moveIntoGrid, 500 * (1/level));
 
         if (collision) {
             clearInterval(moving);
@@ -41,6 +43,9 @@ const Enemy = ( { id, xPos, yPos, dir, playerPos,
         if (playerPos[0] === enemyPos[0] && playerPos[1] === enemyPos[1]) {
             handleCollision();
         }
+        if (enemyPos[0] < -50 || enemyPos[0] > 550 || enemyPos[1] < -50 || enemyPos[1] > 550) {
+            handleMakeEnemy(id);
+        }
     }, [enemyPos, playerPos]);
 
     useEffect(() => {
@@ -53,6 +58,7 @@ const Enemy = ( { id, xPos, yPos, dir, playerPos,
             className={styles.outerContainer}
             style={{position:'absolute', left: `${enemyPos[0]}px`, top: `${enemyPos[1]}px`,
                 backgroundColor: `${color}`}}>
+                    {level}
         </div>
     )
 

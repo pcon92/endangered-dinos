@@ -12,6 +12,7 @@ import styles from '../styles/gameScreen.module.css';
 const GameScreen = () => {
 
 
+    // Game started
     const [hasStarted, setHasStarted] = useState(false);
 
     const handleHasStarted = () => {
@@ -20,37 +21,51 @@ const GameScreen = () => {
         setScore(0);
         setEnemies([]);
         setPlayerPos([200, 200]);
+        setEnemyLevel(1);
+        setTotalEnemies(0);
     }
 
+
+    // Score
     const [score, setScore] = useState(0);
 
     const handleSetScore = () => {
-        setScore(score => score + 100);
+        setScore(score => score + 1);
     }
 
 
+    // Enemies
     const [totalEnemies, setTotalEnemies] = useState(0);
     const [enemies, setEnemies] = useState([]);
+    const [enemyLevel, setEnemyLevel] = useState(1);
 
+
+    const handleMakeEnemy = (id) => {
+
+        setTotalEnemies(totalEnemies + 1); // keep track of total enemies generated
+
+        const MAX_ENEMIES = 10;
+        const ENEMIES_PER_LEVEL = 10;
+
+        // Increase level of enemies after ENEMIES_PER_LEVEL have spawned 
+        if (totalEnemies % ENEMIES_PER_LEVEL === 0 && totalEnemies!== 0) {
+            setEnemyLevel(enemyLevel + 1);
+        }
+
+
+        const filteredEnemies =  enemies.filter(enemy => enemy.id !== id);
+        setEnemies([...filteredEnemies, makeEnemy(totalEnemies, enemyLevel)])
+
+
+    };
+
+
+    // Collision
     const [collision, setCollision] = useState(false);
 
     const handleCollision = () => {
         setCollision(true);
         setHasStarted(false);
-    };
-
-    const handleMakeEnemy = () => {
-
-        setTotalEnemies(totalEnemies + 1); // keep track of total enemies generated
-
-        // delete previous enemy if more than one on board
-        if (enemies.length > 4) {
-            const filteredEnemies = enemies.filter(enemy => enemy.id !== (totalEnemies-4));
-            setEnemies([...filteredEnemies, makeEnemy(totalEnemies)])
-        } else {
-            setEnemies([...enemies, makeEnemy(totalEnemies)]);
-        }
-
     };
 
 
@@ -64,22 +79,28 @@ const GameScreen = () => {
 
     // Generate Enemies on component creation
     useEffect(() => {
-        const generateEnemy = setInterval(handleMakeEnemy, 3000);
+        let generateEnemy;
+        if (hasStarted) {
+            generateEnemy = setInterval(handleMakeEnemy, 1000);
+        }
         return () => clearInterval(generateEnemy);
     }, [enemies]);
 
     return (
-        <>
-            {hasStarted 
-            ?   
-            <div className={styles.wrapper}>
-                <Score 
-                    score={score}
-                    handleSetScore={handleSetScore}
-                    hasStarted={hasStarted}
-                    collision={collision}/>
-                <div className={styles.outerContainerStarted}>
-                    <div className={styles.innerGrid}>
+        <div className={styles.wrapper}>
+            <Score 
+                score={score}
+                handleSetScore={handleSetScore}
+                hasStarted={hasStarted}
+                collision={collision}/>
+                {hasStarted ? null 
+                    : <StartButton
+                    handleHasStarted={handleHasStarted}/>}
+            <div 
+                className={hasStarted 
+                        ? `${styles.outerContainer}`
+                        : `${styles.outerContainer} ${styles.notStarted}`}>
+                <div className={styles.innerGrid}>
                     {enemies.map(enemy => 
                         <Enemy 
                             key={enemy.id}
@@ -87,48 +108,19 @@ const GameScreen = () => {
                             xPos = {enemy.xPos}
                             yPos = {enemy.yPos}
                             dir = {enemy.dir}
+                            level = {enemy.level}
                             playerPos={playerPos}
                             handleCollision={handleCollision}
+                            handleMakeEnemy={handleMakeEnemy}
                             collision={collision}/>
                     )}
-                        <Player
-                            playerPos={playerPos}
-                            handlePlayerPos={handlePlayerPos} 
-                            collision={collision}/>
-                    </div>
+                    <Player
+                        playerPos={playerPos}
+                        handlePlayerPos={handlePlayerPos} 
+                        collision={collision}/>
                 </div>
             </div>
-            : 
-            <div className={styles.wrapper}>
-                <Score 
-                    score={score}
-                    handleSetScore={handleSetScore}
-                    hasStarted={hasStarted}
-                    collision={collision}/>
-                <StartButton
-                    handleHasStarted={handleHasStarted}/>
-                <div className={styles.outerContainerNotStarted}>
-                    <div className={styles.innerGrid}>
-                        {enemies.map(enemy => 
-                            <Enemy 
-                                key={enemy.id}
-                                id={enemy.id}
-                                xPos = {enemy.xPos}
-                                yPos = {enemy.yPos}
-                                dir = {enemy.dir}
-                                playerPos={playerPos}
-                                handleCollision={handleCollision}
-                                collision={collision}/>
-                        )}
-                        <Player
-                            playerPos={playerPos}
-                            handlePlayerPos={handlePlayerPos} 
-                            collision={collision}/>
-                    </div>
-                </div>
-            </div>
-            }
-        </>   
+        </div>
     )
    
 };
