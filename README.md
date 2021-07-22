@@ -8,6 +8,9 @@ Dino Images and Animations created by Arks (Twitter: @ScissorMarks) on Itch.io
 Background tileset created by Pixiatrist on Itch.io
 (https://pixiatrist.itch.io/amazingtilesetground1)
 
+Pixel sand clock by NYKNCK on Itch.io
+(https://kvsr.itch.io/sand-clock)
+
 
 UNUSED:
 Grass + (not yet used)
